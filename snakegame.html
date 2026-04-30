@@ -1,0 +1,194 @@
+<html>
+<head>
+   <title>sotepamoja - snake game</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   
+   <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+   <script type="text/javascript" src="js/snakegamejs.js"></script>
+   <script type="text/javascript" >
+             
+       $(document).ready(function(){ 
+	       $("#speedChange").change(function(){
+			   var speed = $.trim($(this).val());
+			   snake.setDefaultSpeed( snake.speeds[speed] );
+			   $(this).blur();
+		   }).val("fast").trigger("change");
+		   
+		   $("#pausePlayButton").click(function(){
+			  if( $(this).val() == "PAUSE" ){
+				 snake.pause();
+				 $(this).val("PLAY");
+				 $("#pausePlayLabel").html("Play");
+			   }else if( $(this).val() == "PLAY" ){
+				    snake.play();
+				    $(this).val("PAUSE");
+					$("#pausePlayLabel").html("Pause");
+				 }
+		   });
+		   		   
+	       snake.init( $("#PlayWindowDiv"),function(report){
+	    	   $("#ScoreDisplayer span").html( report.marks );
+	       });
+	       
+	       
+	   });
+   </script>
+   <style type="text/css">
+       
+	   div{
+	       border:0px solid #ccc;
+		   overflow: hidden;
+		   position:relative;		
+           margin:auto;
+           border-color:#FFF;		   
+	   }
+	   div#LayoutDiv{
+	       width:1000px;
+		   overflow:visible;
+		   border-width:0px;
+	   }
+	   div#LeftColumnDiv{
+	       border-width:0px;
+	   	   width:550px;
+	   	   float:left;
+	   	   overflow:visible;
+	   }
+	   div#RightColumnDiv{
+	       border-width:0px;
+	   	   overflow:visible;
+	   	   width:200px;
+	   	   margin-left:5px;
+	   	   float:left;
+	   }
+	   div#PlayWindowDiv{
+	       width:500px;
+		   height:300px;		   
+		   border:10px outset #70A5DA;
+	   }
+	   div#DetailsDiv{
+	       width:200px;
+		   height:200px;	
+		   border-color:#color: #008000;   	   	   
+	   }
+	   table#DetailsTable{
+	       font-size: 35px;
+	   	   color: #008000;
+	   }
+	   div#ControlsDiv{
+	       width:300px;
+		   height:auto;
+		   margin-top:5px;
+		   clear:both;
+	   	   border-width:0px;
+	   }
+	   div.controlWrapper{
+		   float:left;
+		   border-width:0px;
+		   margin:2px;
+		   width:145px;
+	   }
+	   table#ControlsTable{
+	   	   
+	   }
+       table#ControlsTable tr td.colspan{
+	   }
+	   span.JoyStick{
+	      border:0px solid red;
+	   	  position:relative;
+	   }
+	   span#TopJoyStick{bottom:-10px;}
+	   span#LeftJoyStick{right:-10px;}
+	   span#RightJoyStick{left:-10px;}
+	   span#BottomJoyStick{top:-10px;}
+	   .Block{
+	      display:block;
+	   }
+	   .invisible{
+	         visibility: hidden;
+	   }
+	   #speedControlTable{color:#333;font-size:16px;}
+	   #speedChange{border:1px solid #333;}
+	   
+   </style>
+</head>
+<body>
+        <div id="LayoutDiv">
+           <div id="LeftColumnDiv">
+				  <div  id="PlayWindowDiv">	  
+				  </div>
+				  <div id="ControlsDiv">
+                    <div id="joyStickWrapper" class="controlWrapper">
+	                 	<table id="ControlsTable" border="0px">
+                            <tr>
+                                 <td colspan="3" align="center">
+                                      <span id="TopJoyStick" class="JoyStick colspan" >
+                                           <img src="images/topjoystick.png" />
+                                       </span>
+                                 </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                    <span id="LeftJoyStick" class="JoyStick" >
+                                            <img src="images/leftjoystick.png" />
+                                    </span>
+                                </td>
+                                <td>
+                                     <span id="" class="invisible" >
+                                         <img src="images/rightjoystick.png" />
+                                     </span>
+                                </td>
+                                <td>
+                                    <span id="RightJoyStick" class="JoyStick" >
+                                         <img src="images/rightjoystick.png" />
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" align="center">
+                                      <span id="BottomJoyStick" class="JoyStick colspan" >
+                                            <img src="images/bottomjoystick.png" />
+                                       </span>
+                                </td>
+                            </tr>
+					  	</table>
+                      </div>
+                     <div id="speedControlWrapper" class="controlWrapper">
+                         <table id="speedControlTable" >
+                           <tr>
+                              <td>
+                                  <span>Speed: </span>
+                              </td>
+                              <td>
+                                  <select id="speedChange">
+                                       <option value="slow" >slow</option>
+                                       <option value="medium" >medium</option>
+                                       <option selected="selected" value="fast" >fast</option>
+                                       <option value="supersonic">supersonic</option>
+                                  </select>
+                              </td>
+                            </tr>
+                            <tr>
+                               <td>
+                                  <span id="pausePlayLabel">Pause: </span>
+                              </td>
+                              <td>
+                                  <input type="button" id="pausePlayButton" value="PAUSE"  />
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+	             </div>
+		  </div>
+		  <div id="RightColumnDiv">
+			  <div id="DetailsDiv">
+			         <table id="DetailsTable">
+					      <tr>
+						      <td>Score:</td><td id="ScoreDisplayer"><span>0</span></td>
+						  </tr>
+					 </table>
+			  </div>	
+          </div>	  
+		</div>
+		
+</body>
+</html>
